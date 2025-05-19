@@ -12,7 +12,7 @@ describe('Items Routes', () => {
   
     // Test GET /api/items/:itemId
     it('should return an item by ID or 404 if not found', async () => {
-      const res = await request(app).get('/api/items/1'); // use a valid item ID
+      const res = await request(app).get('/api/items/1'); 
       if (res.statusCode === 200) {
         expect(res.body).toHaveProperty('id');
       } else {
@@ -22,12 +22,12 @@ describe('Items Routes', () => {
   
     // Test GET /api/items/:itemId/reviews
     it('should return reviews for a specific item', async () => {
-      const res = await request(app).get('/api/items/1/reviews'); // use a valid item ID
+      const res = await request(app).get('/api/items/1/reviews'); 
       expect(res.statusCode).toBe(200);
       expect(Array.isArray(res.body)).toBe(true);
     });
   });
 
   afterAll(async () => {
-    await pool.end(); // closes the DB connection
+    await pool.end();
   });

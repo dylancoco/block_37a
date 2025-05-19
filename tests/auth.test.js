@@ -45,5 +45,5 @@ describe('Auth Routes', () => {
 });
 
 afterAll(async () => {
-  await pool.end(); // closes the DB connection
+  await pool.end(); 
 });
