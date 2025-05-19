@@ -3,6 +3,7 @@ const cors = require('cors')
 const authRoutes = require('./routes/authRoutes');
 const items = require('./routes/items')
 const reviews = require('./routes/reviews')
+const comments = require('./routes/comments')
 const dotenv = require('dotenv')
 
 dotenv.config()
@@ -15,7 +16,8 @@ app.use(express.json())
 
 app.use('/api/auth', authRoutes)
 app.use('/api/items', items)
-app.use('/api/', reviews)
+app.use('/api', reviews)
+app.use('/api', comments)
 
 app.get('/', (req, res) => {
     res.send('Server is working');

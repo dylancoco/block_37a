@@ -55,4 +55,29 @@ router.put('/users/:userId/reviews/:reviewId', authenticate, async(req, res) => 
     }
 })
 
+router.delete('/users/:userId/reviews/:reviewId', authenticate, async (req, res) => {
+    const { userId, reviewId } = req.params;
+  
+    if (parseInt(userId) !== req.user.userId) {
+      return res.status(403).json({ error: 'Unauthorized to delete this review' });
+    }
+  
+    try {
+      const result = await pool.query(
+        'DELETE FROM reviews WHERE id = $1 AND user_id = $2 RETURNING *',
+        [reviewId, userId]
+      );
+  
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'Review not found or not owned by user' });
+      }
+  
+      res.status(204).send();
+    } catch (error) {
+      console.error('Failed to delete review:', error.message);
+      res.status(500).json({ error: 'Failed to delete review' });
+    }
+  });
+  
+
 module.exports = router
