@@ -11,7 +11,9 @@ router.post('/register', async (req, res) => {
         const result = await pool.query(`
             INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id, email
             `, [email, hashedPassword])
-        res.status(201).json({id: result.rows[0].id, email: result.rows[0].email})
+        const user = result.rows[0];
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.status(201).json({ token });
     }catch(err){
         res.status(500).json({error: 'Error registering user'})
     }
